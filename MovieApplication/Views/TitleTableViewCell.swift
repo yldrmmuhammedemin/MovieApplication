@@ -69,7 +69,6 @@ static let identfier = "TitleTableViewCell"
         NSLayoutConstraint.activate(titleLabelConstraint)
     }
     
-    
     public func configure(with model: UpcomingTitle){
         guard let url = URL(string: "https://image.tmdb.org/t/p/w500\(model.posterURL)") else { return }
         posterImageView.kf.setImage(with: url)

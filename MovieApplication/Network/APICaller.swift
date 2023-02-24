@@ -10,9 +10,9 @@ import Alamofire
 
 
 struct Constants{
-    static let API_Key = ""
+    static let API_Key = "cbc1274753a04c163039ce80483a66a1"
     static let baseURL = "https://api.themoviedb.org/"
-    static let API_Key_Youtube = ""
+    static let API_Key_Youtube = "AIzaSyDNQmYLjwr-zx9PJGPSMzSSSpv6BALkLZ4"
 }
 enum APIError: Error{
     case failedToGetData
@@ -149,7 +149,8 @@ class APICaller{
                 print(error.localizedDescription)
             }
         }
-
+        task.resume()
+        
     }
     
     
@@ -158,8 +159,8 @@ class APICaller{
 //        let url = "https://youtube.googleapis.com/youtube/v3/search?q=" + query + "&key=" + Constants.API_Key_Youtube
 //        let task = AF.request(url, method: .get).response{
 //            response in
-////            guard let data = response.data else { return }
-//            //print(data)
+//           guard let data = response.data else { return }
+//            print(data)
 //            guard let data = response.data else { return }
 //            do{
 //                let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)

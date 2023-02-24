@@ -9,6 +9,7 @@ import UIKit
 import WebKit
 import Alamofire
 class TitlePreviewViewController: UIViewController {
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

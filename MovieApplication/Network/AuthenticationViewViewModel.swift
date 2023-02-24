@@ -47,7 +47,6 @@ final class AuthenticationViewViewModel : ObservableObject {
     }
     
     func loginUser(){
-        
         guard let email = email,
               let password = password else {return}
         AuthManager.shared.loginUser(with: email, password: password)
@@ -58,7 +57,6 @@ final class AuthenticationViewViewModel : ObservableObject {
             } receiveValue: { [weak self] user in
                 self?.user = user
             }.store(in: &subscriptions)
-
     }
 }
 
