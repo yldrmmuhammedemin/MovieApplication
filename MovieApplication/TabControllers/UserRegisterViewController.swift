@@ -54,6 +54,12 @@ class UserRegisterViewController: UIViewController {
         viewModel.$isFormValid.sink { [weak self] buttonState in
             self?.submitButton.isEnabled = buttonState
                }.store(in: &subscriptions)
+        
+        viewModel.$isOnBoardingFinish.sink{ [weak self] status in
+            if status{
+                self?.dismiss(animated: true)
+            }
+        }.store(in: &subscriptions)
     }
     
     @objc private func didTapDismiss(){

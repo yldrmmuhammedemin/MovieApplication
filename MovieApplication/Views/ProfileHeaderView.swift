@@ -8,15 +8,24 @@
 import UIKit
 
 class ProfileHeaderView: UIView {
-    let nameLabel : UILabel = {
+    
+    var usernameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Emin Yildirim"
+        label.font = .systemFont(ofSize: 16, weight:.light)
+        return label
+    }()
+    
+    
+    var nameLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        //label.text = "Emin Yildirim"
         label.font = .systemFont(ofSize: 18, weight: .bold)
         return label
     }()
     
-    let headerImage: UIImageView = {
+     var headerImage: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(named: "puma")
@@ -26,14 +35,14 @@ class ProfileHeaderView: UIView {
         
     }()
     
-    let profileImage: UIImageView = {
+     var profileImage: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.layer.cornerRadius = 50
         image.layer.masksToBounds = true
-        image.image = UIImage(named: "JohnWick")
+        //image.image = UIImage(named: "JohnWick")
         return image
     }()
     
@@ -42,7 +51,7 @@ class ProfileHeaderView: UIView {
             headerImage.topAnchor.constraint(equalTo: topAnchor),
             headerImage.leadingAnchor.constraint(equalTo: leadingAnchor),
             headerImage.trailingAnchor.constraint(equalTo: trailingAnchor),
-            headerImage.heightAnchor.constraint(equalToConstant: 300)
+            headerImage.heightAnchor.constraint(equalToConstant: 200)
         ]
         
         let profileImageConstraint = [
@@ -53,9 +62,15 @@ class ProfileHeaderView: UIView {
         ]
         
         let nameLabelConstraint = [
-            nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40),
+            nameLabel.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: 20),
             nameLabel.topAnchor.constraint(equalTo: headerImage.bottomAnchor, constant: 10),
         ]
+        
+        let usernameLabelConstraint = [
+            usernameLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            usernameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant:5)
+        ]
+        NSLayoutConstraint.activate(usernameLabelConstraint)
         NSLayoutConstraint.activate(headerImageConstraint)
         NSLayoutConstraint.activate(profileImageConstraint)
         NSLayoutConstraint.activate(nameLabelConstraint)
@@ -66,6 +81,7 @@ class ProfileHeaderView: UIView {
         addSubview(headerImage)
         addSubview(profileImage)
         addSubview(nameLabel)
+        addSubview(usernameLabel)
         confConstraint()
     }
     

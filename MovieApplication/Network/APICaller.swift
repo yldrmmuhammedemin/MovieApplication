@@ -55,7 +55,7 @@ class APICaller{
     }
     
     func getUpcomingMovies(completion: @escaping (Result<[Title],Error>) -> Void){
-        let url = Constants.baseURL + "/3/movie/upcoming?api_key=" + Constants.API_Key + "&language=en-US&page=1" //https://api.themoviedb.org/3/movie/upcoming?api_key=cbc1274753a04c163039ce80483a66a1&language=en-US&page=1
+        let url = Constants.baseURL + "/3/movie/upcoming?api_key=" + Constants.API_Key + "&language=en-US&page=1"
         let task = AF.request(url, method: .get).response {
             response in
             guard let data = response.data else { return }
@@ -72,7 +72,6 @@ class APICaller{
     
     func getTopRatedMovies(completion: @escaping (Result<[Title], Error>) -> Void){
         let url = Constants.baseURL + "/3/movie/top_rated?api_key=" + Constants.API_Key
-        //https://api.themoviedb.org/3/movie/top_rated?api_key=cbc1274753a04c163039ce80483a66a1&language=en-US&page=1
         let task = AF.request(url, method: .get).response{
             result in
             guard let data = result.data else { return }
@@ -88,7 +87,6 @@ class APICaller{
     
     func getPopularMovies(complation: @escaping (Result<[Title], Error>) -> Void){
         let url = Constants.baseURL + "/3/movie/popular?api_key=" + Constants.API_Key
-        //https://api.themoviedb.org/3/movie/popular?api_key=cbc1274753a04c163039ce80483a66a1&language=en-US&page=1
         let task = AF.request(url, method:.get).response{
             response in
             guard let data = response.data else { return }

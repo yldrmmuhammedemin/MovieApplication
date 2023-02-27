@@ -28,13 +28,6 @@ class SearchResultViewController: UIViewController {
         super.viewDidLayoutSubviews()
         searchResultCollection.frame = view.bounds
     }
-    
-    private func fetchData(){
-
-        
-    }
-
-
 }
 
 extension SearchResultViewController: UICollectionViewDelegate, UICollectionViewDataSource{
@@ -48,6 +41,27 @@ extension SearchResultViewController: UICollectionViewDelegate, UICollectionView
         cell.configure(with: title.poster_path ?? "")
         return cell
         
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let title = titles[indexPath.row]
+        guard let titleName = title.original_title ?? title.original_name else {
+            return
+        }
+        APICaller.shared.getMovie(with: titleName + "trailer") { [weak self] result in
+            switch result{
+            case .success(let videoElement):
+                let title = self?.titles[indexPath.row]
+                guard let titleOverview = title?.overview else{return}
+                let viewModel = TitlePreviewViewModel(title: titleName, youtubeView: videoElement, titleOverView: titleOverview)
+                DispatchQueue.main.async { [weak self] in
+                    let vc = TitlePreviewViewController()
+                    vc.configure(with: viewModel)
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     

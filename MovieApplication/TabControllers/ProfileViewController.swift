@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import Combine
+import Kingfisher
 
 class ProfileViewController: UIViewController {
+    var subscriptions: Set<AnyCancellable> = []
     
     var titles = [Title]()
     var isStatusBarHidden: Bool = true
-    
+    private var viewModel = ProfileViewModel()
     let statusBar: UIView = {
         let view = UIView()
         view.backgroundColor = .systemBackground
@@ -27,6 +30,8 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var headerView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 280))
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -35,10 +40,27 @@ class ProfileViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         view.addSubview(tableView)
         view.addSubview(statusBar)
-        let headerView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 360))
         tableView.tableHeaderView = headerView
         confConstraint()
         fetchData()
+        bindView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.retriveUser()
+    }
+    
+    private func bindView(){
+        viewModel.$user.sink { [weak self] user in
+            guard let user = user else{return}
+            DispatchQueue.main.async {
+                self?.headerView.nameLabel.text = "\(user.displayName)"
+                self?.headerView.usernameLabel.text = "@\(user.username)"
+                let url = URL(string: user.avatarPath)
+                self?.headerView.profileImage.kf.setImage(with: url)
+            }
+        }.store(in: &subscriptions)
     }
     
     private func confConstraint(){

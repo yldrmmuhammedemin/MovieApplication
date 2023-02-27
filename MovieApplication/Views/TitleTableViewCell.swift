@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class TitleTableViewCell: UITableViewCell {
 static let identfier = "TitleTableViewCell"

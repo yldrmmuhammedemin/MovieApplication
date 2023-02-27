@@ -40,7 +40,12 @@ class TitlePreviewViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(overViewLabel)
         view.addSubview(webView)
+        navigationController?.navigationBar.isHidden = true
         configureConstraints()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
     }
     
     private func configureConstraints(){

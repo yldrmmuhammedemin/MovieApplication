@@ -21,6 +21,7 @@ class AppUserViewModel: ObservableObject{
     @Published var error : String?
     @Published var url :URL?
     @Published var imageData : UIImage?
+    @Published var isOnBoardingFinish: Bool = false
     
     
     func validatePorfileForm(){
@@ -47,11 +48,34 @@ class AppUserViewModel: ObservableObject{
             case .failure(let error):
                 self?.error = error.localizedDescription
             case .finished:
-                print(self?.url?.absoluteURL ?? "")
+                self?.updateUser()
             }
         } receiveValue: { [weak self] url in
-            self?.url = url
+            self?.avatarPath = url.absoluteString
         }.store(in: &subscription)
+    }
+    
+    private func updateUser(){
+        guard let username = self.username,
+              let id = Auth.auth().currentUser?.uid,
+              let displayName = self.displayName,
+              let avatarPath = self.avatarPath else {return}
+        let updateFields: [String:Any] = [
+            "displayName": displayName,
+            "username": username,
+            "avatarPath": avatarPath,
+            "isUserOnboarded": true
+        ]
+        DatabaseManager.shared.collectionUsers(updateFields: updateFields, for: id).sink { [weak self] completion in
+            if case .failure(let error) = completion{
+                print(error.localizedDescription)
+                self?.error = error.localizedDescription
+            }
+        } receiveValue: { [weak self] onboardingStatus in
+            self?.isOnBoardingFinish = onboardingStatus
+        }.store(in: &subscription)
+
+        
     }
 }
 
