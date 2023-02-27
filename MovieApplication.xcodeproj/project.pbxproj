@@ -52,6 +52,7 @@
 		C3AD72C5299BAD9A006B21F7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C3AD72C4299BAD9A006B21F7 /* FirebaseStorage */; };
 		C3AD72C7299BAD9A006B21F7 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C3AD72C6299BAD9A006B21F7 /* FirebaseStorageCombine-Community */; };
 		C3AD72CC299BB99E006B21F7 /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AD72CB299BB99E006B21F7 /* CollectionViewTableViewCell.swift */; };
+		C3CE6CF129AC95B400CFA65F /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CE6CF029AC95B400CFA65F /* ProfileHeaderView.swift */; };
 		C3ECD56229A89C1800E2BEE3 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ECD56129A89C1800E2BEE3 /* AppUser.swift */; };
 		C3ECD56429A8A1D500E2BEE3 /* AppUserModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ECD56329A8A1D500E2BEE3 /* AppUserModelView.swift */; };
 /* End PBXBuildFile section */
@@ -91,6 +92,7 @@
 		C3AD72A6299BAAF7006B21F7 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		C3AD72A8299BAAF7006B21F7 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		C3AD72CB299BB99E006B21F7 /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
+		C3CE6CF029AC95B400CFA65F /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		C3ECD56129A89C1800E2BEE3 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		C3ECD56329A8A1D500E2BEE3 /* AppUserModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUserModelView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -213,6 +215,7 @@
 				C3AD3975299CB72900DB5353 /* HeroHeaderView.swift */,
 				C3339650299DFA7000158004 /* TitleCollectionViewCell.swift */,
 				C333965A299E1D9000158004 /* TitleTableViewCell.swift */,
+				C3CE6CF029AC95B400CFA65F /* ProfileHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				C369CD66299F746B00F1BA75 /* YoutubeContent.swift in Sources */,
 				C3AD729A299BAABB006B21F7 /* LoginViewController.swift in Sources */,
 				C3AD72A2299BAAE4006B21F7 /* AuthenticationViewViewModel.swift in Sources */,
+				C3CE6CF129AC95B400CFA65F /* ProfileHeaderView.swift in Sources */,
 				C3AD729F299BAAD9006B21F7 /* AuthManager.swift in Sources */,
 				C33EA1B029A8E4CB00AF1F24 /* DatabaseManager.swift in Sources */,
 				C333965B299E1D9000158004 /* TitleTableViewCell.swift in Sources */,

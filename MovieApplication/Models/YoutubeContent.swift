@@ -9,7 +9,6 @@ import Foundation
 
 struct YoutubeContent:Codable {
     let items: [VideoElement]
-    
 }
 
 struct VideoElement: Codable{

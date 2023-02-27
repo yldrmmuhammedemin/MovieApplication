@@ -9,8 +9,17 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    let titles = [Title]()
-    let isStatusBarHidden: Bool = true
+    var titles = [Title]()
+    var isStatusBarHidden: Bool = true
+    
+    let statusBar: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.opacity = 0
+        return view
+    }()
+    
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(TitleTableViewCell.self, forCellReuseIdentifier: TitleTableViewCell.identfier)
@@ -18,71 +27,60 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    private let headerImage: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        //image.image = UIImage(named: "puma")
-        image.contentMode = .scaleAspectFit
-        return image
-        
-    }()
-    
-    private let profileImage: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFit
-        image.clipsToBounds = true
-        image.layer.cornerRadius = 25
-        image.layer.masksToBounds = false
-        image.image = UIImage(named: "JohnWick")
-        return image
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
         navigationItem.title = "Profile"
+        navigationController?.navigationBar.isHidden = true
         view.addSubview(tableView)
-        view.addSubview(profileImage)
-        view.addSubview(headerImage)
+        view.addSubview(statusBar)
+        let headerView = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 360))
+        tableView.tableHeaderView = headerView
+        confConstraint()
+        fetchData()
     }
     
     private func confConstraint(){
         let tableViewConstraint = [
-            tableView.topAnchor.constraint(equalTo: headerImage.bottomAnchor, constant: 5),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ]
         
-        let profileImageConstraint = [
-            profileImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            profileImage.centerYAnchor.constraint(equalTo: headerImage.bottomAnchor,constant: 10 ),
-            profileImage.heightAnchor.constraint(equalToConstant: 50),
-            profileImage.widthAnchor.constraint(equalToConstant: 50)
-        
+        let statusBarConstraint = [
+            statusBar.topAnchor.constraint(equalTo: view.bottomAnchor),
+            statusBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            statusBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            statusBar.heightAnchor.constraint(equalToConstant: view.bounds.height > 800 ? 40 : 20)
         ]
         
-        let headerImageConstraint = [
-            headerImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            headerImage.heightAnchor.constraint(equalToConstant: 20),
-            headerImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerImage.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ]
         
         NSLayoutConstraint.activate(tableViewConstraint)
-        NSLayoutConstraint.activate(profileImageConstraint)
-        NSLayoutConstraint.activate(headerImageConstraint)
+        NSLayoutConstraint.activate(statusBarConstraint)
     }
-
-
+    
+    
+    private func fetchData(){
+        APICaller.shared.getDiscover { [weak self] result in
+            switch result{
+            case .success(let titles):
+                self?.titles = titles
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
 
-
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return titles.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,8 +88,29 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         else{
             return UITableViewCell()
         }
+        let titles = titles[indexPath.row]
+        let model = UpcomingTitle(titleName: titles.original_title ?? titles.original_name ?? "Unknown name", posterURL: titles.poster_path ?? "")
+        cell.configure(with: model)
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 140
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let yPosition = scrollView.contentOffset.y
+        if yPosition > 150 && isStatusBarHidden{
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear) {[weak self] in
+                self?.statusBar.layer.opacity = 1
+            }completion: { _ in }
+        }
+        else if yPosition < 0 && !isStatusBarHidden{
+            isStatusBarHidden = true
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear) {[weak self] in
+                self?.statusBar.layer.opacity = 0
+            }completion: { _ in }
+        }
+    }
 
 }

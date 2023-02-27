@@ -8,6 +8,7 @@
 import UIKit
 import WebKit
 import Alamofire
+
 class TitlePreviewViewController: UIViewController {
     
     private let titleLabel: UILabel = {
@@ -28,6 +29,7 @@ class TitlePreviewViewController: UIViewController {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.textAlignment = .justified
         label.numberOfLines = 0
         return label
     }()
@@ -39,11 +41,10 @@ class TitlePreviewViewController: UIViewController {
         view.addSubview(overViewLabel)
         view.addSubview(webView)
         configureConstraints()
-        // Do any additional setup after loading the view.
     }
+    
     private func configureConstraints(){
         let webViewConstraints = [
-            //webView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -56,11 +57,11 @@ class TitlePreviewViewController: UIViewController {
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ]
+        
         let overviewLabelConstraints = [
             overViewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
             overViewLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            overViewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            
+            overViewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ]
         
         NSLayoutConstraint.activate(webViewConstraints)
@@ -72,8 +73,7 @@ class TitlePreviewViewController: UIViewController {
     func configure(with model: TitlePreviewViewModel){
         titleLabel.text = model.title
         overViewLabel.text = model.titleOverView
-        guard let url = URL(string:"www.youtube.com/embed/\(model.youtubeView.id.videoId)") else {return}
-        //guard let url = URL(string: "https://www.youtube.com/embed/o9_UteTT9wA") else{return	}
+        guard let url = URL(string:"https://www.youtube.com/embed/\(model.youtubeView.id.videoId)") else {return}
         webView.load(URLRequest(url: url))
      }
     

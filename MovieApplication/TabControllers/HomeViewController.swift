@@ -7,18 +7,21 @@
 
 import UIKit
 import FirebaseAuth
-
+import Combine
 
 
 private let sectionHeaders = ["Trendıng Movıes", "Trendıng Tv", "Popular", "Upcomıng Movıes", "Top Rated"]
 
-enum Sections: Int{
+private var viewModel = HomeViewViewModel()
+private var subscription : Set<AnyCancellable> = []
+
+    enum Sections: Int{
     case TrendingMovies = 0
     case TrendingTv = 1
     case Popular = 2
     case Upcoming = 3
     case TopRated = 4
-}
+    }
 
 class HomeViewController: UIViewController {
     private let HomeFeedTable: UITableView = {
@@ -37,6 +40,7 @@ class HomeViewController: UIViewController {
         let headerTableView = HeroHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         HomeFeedTable.tableHeaderView = headerTableView
         navbarConf()
+        bindView()
     }
     
     private func navbarConf(){
@@ -62,7 +66,10 @@ class HomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         sessionControl()
+        navigationController?.navigationBar.isHidden = false
+        viewModel.retriveUser()
     }
     
     func sessionControl(){
@@ -72,13 +79,28 @@ class HomeViewController: UIViewController {
             present(vc,animated: false)
         }
     }
-
+    
+    func completeUserOnboarding(){
+        let vc = UserRegisterViewController()
+        present(vc, animated: true)
+    }
+    
+    func bindView(){
+        viewModel.$user.sink { [weak self] user in
+            guard let user = user else {return}
+            if !user.isUserOnboarded {
+                self?.completeUserOnboarding()
+            }
+        }.store(in: &subscription)
+        
+    }
 
 }
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionHeaders.count
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
@@ -87,6 +109,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionViewTableViewCell.identifier, for: indexPath) as? CollectionViewTableViewCell else{
             return UITableViewCell()
         }
+        
         cell.delegate = self
         switch indexPath.section{
         case Sections.TrendingMovies.rawValue:

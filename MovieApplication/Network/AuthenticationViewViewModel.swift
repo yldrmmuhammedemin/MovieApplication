@@ -36,14 +36,28 @@ final class AuthenticationViewViewModel : ObservableObject {
     func createUser(){
         guard let email = email,
               let password = password else{return}
-        AuthManager.shared.createUser(with: email, password: password)
-            .sink { [weak self] completion in
+        AuthManager.shared.createUser(with: email, password: password).handleEvents(receiveOutput: { [weak self] user in
+            self?.user = user
+        })
+        .sink { [weak self] completion in
                 if case .failure(let error) = completion{
                     self?.error = error.localizedDescription
                 }
             } receiveValue: { [weak self] user in
-                self?.user = user
+                self?.createRecord(for: user)
             }.store(in: &subscriptions)
+    }
+    
+    func createRecord(for user: User){
+        DatabaseManager.shared.collectionUsers(add: user).sink { [weak self] completion in
+            if case .failure(let error) = completion{
+                self?.error = error.localizedDescription
+            }
+        } receiveValue: { state in
+            print("User has been added to datavase: \(state)")
+        }.store(in: &subscriptions)
+
+        
     }
     
     func loginUser(){
