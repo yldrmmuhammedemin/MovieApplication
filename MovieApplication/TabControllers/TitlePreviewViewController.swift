@@ -11,6 +11,8 @@ import Alamofire
 
 class TitlePreviewViewController: UIViewController {
     
+    private var viewModel = FavoriteMoviesViewModel()
+    private var model : TitlePreviewViewModel?
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -34,23 +36,30 @@ class TitlePreviewViewController: UIViewController {
         return label
     }()
     
+    private let favoriteAddButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        button.tintColor = .red
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(titleLabel)
         view.addSubview(overViewLabel)
         view.addSubview(webView)
-        navigationController?.navigationBar.isHidden = true
+        view.addSubview(favoriteAddButton)
+        favoriteAddButton.addTarget(self, action: #selector(addFavorite), for: .touchDown)
         configureConstraints()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = false
+    @objc func addFavorite(){
+        viewModel.updateFavoriteMovies(model: self.model!)
     }
-    
     private func configureConstraints(){
         let webViewConstraints = [
-            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             webView.heightAnchor.constraint(equalToConstant: 300),
@@ -69,6 +78,11 @@ class TitlePreviewViewController: UIViewController {
             overViewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ]
         
+        let favoriteAddButton = [
+            favoriteAddButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            favoriteAddButton.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 30)
+        ]
+        NSLayoutConstraint.activate(favoriteAddButton)
         NSLayoutConstraint.activate(webViewConstraints)
         NSLayoutConstraint.activate(titleLabelConstraints)
         NSLayoutConstraint.activate(overviewLabelConstraints)
@@ -76,10 +90,11 @@ class TitlePreviewViewController: UIViewController {
     }
     
     func configure(with model: TitlePreviewViewModel){
-        titleLabel.text = model.title
-        overViewLabel.text = model.titleOverView
-        guard let url = URL(string:"https://www.youtube.com/embed/\(model.youtubeView.id.videoId)") else {return}
-        webView.load(URLRequest(url: url))
+            self.model = model
+            self.titleLabel.text = model.title
+            self.overViewLabel.text = model.titleOverView
+            guard let url = URL(string:"https://www.youtube.com/embed/\(model.youtubeView.id.videoId)") else {return}
+            self.webView.load(URLRequest(url: url))
      }
     
 }

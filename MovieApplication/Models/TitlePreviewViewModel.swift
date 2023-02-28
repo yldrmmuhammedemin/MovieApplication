@@ -6,8 +6,13 @@
 //
 
 import Foundation
-struct TitlePreviewViewModel{
+struct TitlePreviewViewModel:Codable, Equatable{
+    let id : Int
     let title: String
     let youtubeView: VideoElement
     let titleOverView: String
+    
+    static func == (lhs: TitlePreviewViewModel, rhs: TitlePreviewViewModel) -> Bool{
+        return lhs.id == rhs.id
+    }
 }

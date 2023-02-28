@@ -66,17 +66,19 @@ extension ComingSoonViewController: UITableViewDelegate, UITableViewDataSource{
         return 140
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let title = titles[indexPath.row]
         //print(title.original_title ?? title.original_name)
         guard let titleName = title.original_title ?? title.original_name else {
             return
         }
+        guard let titleOverview = title.overview else{return}
+        let id = title.id
         APICaller.shared.getMovie(with: titleName + "trailer") { [weak self] result in
             switch result{
             case .success(let videoElement):
                 let title = self?.titles[indexPath.row]
-                guard let titleOverview = title?.overview else{return}
-                let viewModel = TitlePreviewViewModel(title: titleName, youtubeView: videoElement, titleOverView: titleOverview)
+                let viewModel = TitlePreviewViewModel(id: id, title: titleName, youtubeView: videoElement, titleOverView: titleOverview)
                 DispatchQueue.main.async { [weak self] in
                     let vc = TitlePreviewViewController()
                     vc.configure(with: viewModel)

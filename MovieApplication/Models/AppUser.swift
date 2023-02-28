@@ -14,8 +14,8 @@ struct AppUser : Codable{
     var username : String = ""
     var avatarPath : String = ""
     var isUserOnboarded : Bool = false
-    
-    
+    var favoriteMovies : [TitlePreviewViewModel] = [TitlePreviewViewModel]()
+        
     init(from user: User){
         self.id = user.uid
     }

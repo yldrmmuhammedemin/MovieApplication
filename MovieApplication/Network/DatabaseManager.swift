@@ -36,4 +36,11 @@ class DatabaseManager{
             .map {_ in return true}
             .eraseToAnyPublisher()
     }
+    
+    func collectionAddFavorite(updateFields: [String:[TitlePreviewViewModel]], for id: String) -> AnyPublisher<Bool, Error>{
+        db.collection(userPath).document(id).updateData(updateFields)
+            .map{_ in return true}
+            .eraseToAnyPublisher()
+    }
+    
 }

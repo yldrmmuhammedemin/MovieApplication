@@ -19,10 +19,10 @@ class AppUserViewModel: ObservableObject{
     @Published var avatarPath : String?
     @Published var isFormValid : Bool = false
     @Published var error : String?
-    @Published var url :URL?
+    @Published var url : URL?
     @Published var imageData : UIImage?
-    @Published var isOnBoardingFinish: Bool = false
-    
+    @Published var isOnBoardingFinish : Bool = false
+ 
     
     func validatePorfileForm(){
         guard let displayName = displayName,
@@ -34,6 +34,8 @@ class AppUserViewModel: ObservableObject{
         }
         isFormValid = true
     }
+    
+
     
     func uploadAvatar(){
         let randomID = UUID().uuidString
@@ -56,16 +58,17 @@ class AppUserViewModel: ObservableObject{
     }
     
     private func updateUser(){
-        guard let username = self.username,
+        guard let username,
               let id = Auth.auth().currentUser?.uid,
-              let displayName = self.displayName,
-              let avatarPath = self.avatarPath else {return}
+              let displayName,
+              let avatarPath else {return}
         let updateFields: [String:Any] = [
             "displayName": displayName,
             "username": username,
             "avatarPath": avatarPath,
             "isUserOnboarded": true
         ]
+        
         DatabaseManager.shared.collectionUsers(updateFields: updateFields, for: id).sink { [weak self] completion in
             if case .failure(let error) = completion{
                 print(error.localizedDescription)
