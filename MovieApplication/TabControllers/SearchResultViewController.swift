@@ -53,10 +53,11 @@ extension SearchResultViewController: UICollectionViewDelegate, UICollectionView
         guard let titleName = title.original_title ?? title.original_name else {return}
         guard let titleOverview = title.overview else{return}
         let id = title.id
+        guard let posterPath = title.poster_path else {return}
         APICaller.shared.getMovie(with: titleName + "official trailer") { [weak self] result in
             switch result{
             case .success(let videoElement):
-                let viewModel = TitlePreviewViewModel(id: id, title: titleName, youtubeView: videoElement, titleOverView: titleOverview)
+                let viewModel = TitlePreviewViewModel(id: id, title: titleName, youtubeView: videoElement, titleOverView: titleOverview, posterPath: posterPath)
                 self?.delegate?.searchResultsViewControllerDidTapItem(viewModel)
             case .failure(let error):
                 print(error.localizedDescription)

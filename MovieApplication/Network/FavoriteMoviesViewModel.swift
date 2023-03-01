@@ -30,14 +30,12 @@ class FavoriteMoviesViewModel: ObservableObject{
                     .store(in: &subscriptions)
     }
     
-    func updateFavoriteMovies(model: TitlePreviewViewModel){
+    func updateFavoriteMovies(favModel: TitlePreviewViewModel){
         retriveUser()
         guard let id = self.user?.id else{return}
-        if !self.favoriteMovies!.contains(model){
-            self.favoriteMovies?.append(model)
-            guard let favoriteMovies = self.favoriteMovies else {return}
-            let updateFileds: [String:[TitlePreviewViewModel]] = ["favoriteMovies": favoriteMovies]
-            DatabaseManager.shared.collectionAddFavorite(updateFields: updateFileds, for: id).sink { [weak self] completion in
+        if !self.favoriteMovies!.contains(favModel){
+            self.user?.favoriteMovies.append(favModel)
+            DatabaseManager.shared.updateUsers(add: self.user!, id: id).sink { [weak self] completion in
                 if case .failure(let error) = completion{
                     print(error.localizedDescription)
                     self?.error = error.localizedDescription

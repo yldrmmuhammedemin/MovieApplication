@@ -11,6 +11,7 @@ struct TitlePreviewViewModel:Codable, Equatable{
     let title: String
     let youtubeView: VideoElement
     let titleOverView: String
+    let posterPath: String
     
     static func == (lhs: TitlePreviewViewModel, rhs: TitlePreviewViewModel) -> Bool{
         return lhs.id == rhs.id

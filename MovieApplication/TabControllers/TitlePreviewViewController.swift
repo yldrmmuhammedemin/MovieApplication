@@ -12,7 +12,7 @@ import Alamofire
 class TitlePreviewViewController: UIViewController {
     
     private var viewModel = FavoriteMoviesViewModel()
-    private var model : TitlePreviewViewModel?
+    private var selfModel : TitlePreviewViewModel?
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -55,7 +55,7 @@ class TitlePreviewViewController: UIViewController {
     }
     
     @objc func addFavorite(){
-        viewModel.updateFavoriteMovies(model: self.model!)
+        viewModel.updateFavoriteMovies(favModel: self.selfModel!)
     }
     private func configureConstraints(){
         let webViewConstraints = [
@@ -90,7 +90,7 @@ class TitlePreviewViewController: UIViewController {
     }
     
     func configure(with model: TitlePreviewViewModel){
-            self.model = model
+            self.selfModel = model
             self.titleLabel.text = model.title
             self.overViewLabel.text = model.titleOverView
             guard let url = URL(string:"https://www.youtube.com/embed/\(model.youtubeView.id.videoId)") else {return}

@@ -25,21 +25,21 @@ class DatabaseManager{
             .eraseToAnyPublisher()
     }
     
+    func updateUsers(add user: AppUser, id: String) -> AnyPublisher<Bool, Error>{
+        return db.collection(userPath).document(id).setData(from: user)
+            .map{ _ in return true }
+            .eraseToAnyPublisher()
+    }
+    
     func collectionUsers(retrieve id: String) -> AnyPublisher<AppUser, Error>{
         db.collection(userPath).document(id).getDocument()
             .tryMap{ try $0.data(as: AppUser.self)}
             .eraseToAnyPublisher()
     }
-    
+        
     func collectionUsers(updateFields: [String:Any], for id: String) -> AnyPublisher<Bool, Error>{
         db.collection(userPath).document(id).updateData(updateFields)
             .map {_ in return true}
-            .eraseToAnyPublisher()
-    }
-    
-    func collectionAddFavorite(updateFields: [String:[TitlePreviewViewModel]], for id: String) -> AnyPublisher<Bool, Error>{
-        db.collection(userPath).document(id).updateData(updateFields)
-            .map{_ in return true}
             .eraseToAnyPublisher()
     }
     

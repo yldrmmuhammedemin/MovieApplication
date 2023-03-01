@@ -87,8 +87,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
             case .success(let videoElement):
                 let title = self?.titles[indexPath.row]
                 guard let id = title?.id else{return}
-                guard let titleOverview = title?.overview else{return}
-                let viewModel = TitlePreviewViewModel(id: id, title: titleName, youtubeView: videoElement, titleOverView: titleOverview)
+                guard let titleOverview = title?.overview else {return}
+                guard let posterPath = title?.poster_path else {return}
+                let viewModel = TitlePreviewViewModel(id: id, title: titleName, youtubeView: videoElement, titleOverView: titleOverview, posterPath: posterPath)
                 DispatchQueue.main.async { [weak self] in
                     let vc = TitlePreviewViewController()
                     vc.configure(with: viewModel)

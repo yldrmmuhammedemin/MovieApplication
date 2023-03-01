@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C32A014B29AF46B300AA981C /* AnyCodable in Frameworks */ = {isa = PBXBuildFile; productRef = C32A014A29AF46B300AA981C /* AnyCodable */; };
 		C3339651299DFA7000158004 /* TitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3339650299DFA7000158004 /* TitleCollectionViewCell.swift */; };
 		C3339654299DFBFC00158004 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C3339653299DFBFC00158004 /* Kingfisher */; };
 		C3339657299E180A00158004 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = C3339656299E180A00158004 /* SDWebImage */; };
@@ -112,6 +113,7 @@
 				C3AD72B7299BAD9A006B21F7 /* FirebaseAuth in Frameworks */,
 				C3AD72C3299BAD9A006B21F7 /* FirebaseFirestoreSwift in Frameworks */,
 				C3AD72C1299BAD9A006B21F7 /* FirebaseFirestoreCombine-Community in Frameworks */,
+				C32A014B29AF46B300AA981C /* AnyCodable in Frameworks */,
 				C3AD397D299CFDF700DB5353 /* Alamofire in Frameworks */,
 				C3339657299E180A00158004 /* SDWebImage in Frameworks */,
 				C3AD72C5299BAD9A006B21F7 /* FirebaseStorage in Frameworks */,
@@ -256,6 +258,7 @@
 				C3339653299DFBFC00158004 /* Kingfisher */,
 				C3339656299E180A00158004 /* SDWebImage */,
 				C3339658299E180A00158004 /* SDWebImageMapKit */,
+				C32A014A29AF46B300AA981C /* AnyCodable */,
 			);
 			productName = FilmApplication;
 			productReference = C3AD7272299BA9F8006B21F7 /* MovieApplication.app */;
@@ -290,6 +293,7 @@
 				C3AD397B299CFDF700DB5353 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				C3339652299DFBFC00158004 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				C3339655299E180A00158004 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				C32A014929AF46B300AA981C /* XCRemoteSwiftPackageReference "AnyCodable" */,
 			);
 			productRefGroup = C3AD7273299BA9F8006B21F7 /* Products */;
 			projectDirPath = "";
@@ -561,6 +565,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		C32A014929AF46B300AA981C /* XCRemoteSwiftPackageReference "AnyCodable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Flight-School/AnyCodable";
+			requirement = {
+				kind = exactVersion;
+				version = 0.6.7;
+			};
+		};
 		C3339652299DFBFC00158004 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
@@ -596,6 +608,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C32A014A29AF46B300AA981C /* AnyCodable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C32A014929AF46B300AA981C /* XCRemoteSwiftPackageReference "AnyCodable" */;
+			productName = AnyCodable;
+		};
 		C3339653299DFBFC00158004 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C3339652299DFBFC00158004 /* XCRemoteSwiftPackageReference "Kingfisher" */;
