@@ -15,8 +15,9 @@
 		C333965B299E1D9000158004 /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333965A299E1D9000158004 /* TitleTableViewCell.swift */; };
 		C333965D299E247200158004 /* UpcomingTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333965C299E247200158004 /* UpcomingTitle.swift */; };
 		C333965F299E59E600158004 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333965E299E59E600158004 /* SearchResultViewController.swift */; };
-		C335469829B71B1100E7B87D /* @MockYoutubeResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C335469729B71B1100E7B87D /* @MockYoutubeResponse.json */; };
-		C335469B29B7247500E7B87D /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C335469A29B7247500E7B87D /* ApiKeys.swift */; };
+		C335469D29B7324000E7B87D /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C335469C29B7324000E7B87D /* ApiKey.swift */; };
+		C335469F29B7326A00E7B87D /* @MockYoutubeResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C335469E29B7326A00E7B87D /* @MockYoutubeResponse.json */; };
+		C33546A129B7356900E7B87D /* WatchlistMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33546A029B7356900E7B87D /* WatchlistMovieViewModel.swift */; };
 		C33EA1AA29A8A75100AF1F24 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33EA1A929A8A75100AF1F24 /* StorageManager.swift */; };
 		C33EA1AC29A8D89D00AF1F24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C33EA1AB29A8D89D00AF1F24 /* GoogleService-Info.plist */; };
 		C33EA1B029A8E4CB00AF1F24 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33EA1AF29A8E4CB00AF1F24 /* DatabaseManager.swift */; };
@@ -70,8 +71,9 @@
 		C333965A299E1D9000158004 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
 		C333965C299E247200158004 /* UpcomingTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingTitle.swift; sourceTree = "<group>"; };
 		C333965E299E59E600158004 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
-		C335469729B71B1100E7B87D /* @MockYoutubeResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "@MockYoutubeResponse.json"; sourceTree = "<group>"; };
-		C335469A29B7247500E7B87D /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
+		C335469C29B7324000E7B87D /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ApiKey.swift; path = MovieApplication/ApiKey.swift; sourceTree = SOURCE_ROOT; };
+		C335469E29B7326A00E7B87D /* @MockYoutubeResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "@MockYoutubeResponse.json"; sourceTree = "<group>"; };
+		C33546A029B7356900E7B87D /* WatchlistMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistMovieViewModel.swift; sourceTree = "<group>"; };
 		C33EA1A929A8A75100AF1F24 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		C33EA1AB29A8D89D00AF1F24 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C33EA1AF29A8E4CB00AF1F24 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -140,7 +142,7 @@
 		C335469929B7245D00E7B87D /* Configure */ = {
 			isa = PBXGroup;
 			children = (
-				C335469A29B7247500E7B87D /* ApiKeys.swift */,
+				C335469C29B7324000E7B87D /* ApiKey.swift */,
 			);
 			path = Configure;
 			sourceTree = "<group>";
@@ -220,7 +222,8 @@
 				C33EA1B129A8E8A900AF1F24 /* HomeViewViewModel.swift */,
 				C3CE6CF229ACF77C00CFA65F /* ProfileViewModel.swift */,
 				C38715B229B0F47C0086099A /* WatchlistsModel.swift */,
-				C335469729B71B1100E7B87D /* @MockYoutubeResponse.json */,
+				C335469E29B7326A00E7B87D /* @MockYoutubeResponse.json */,
+				C33546A029B7356900E7B87D /* WatchlistMovieViewModel.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -335,7 +338,7 @@
 				C3AD7282299BA9FA006B21F7 /* LaunchScreen.storyboard in Resources */,
 				C3AD727F299BA9FA006B21F7 /* Assets.xcassets in Resources */,
 				C33EA1AC29A8D89D00AF1F24 /* GoogleService-Info.plist in Resources */,
-				C335469829B71B1100E7B87D /* @MockYoutubeResponse.json in Resources */,
+				C335469F29B7326A00E7B87D /* @MockYoutubeResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +363,7 @@
 				C333965B299E1D9000158004 /* TitleTableViewCell.swift in Sources */,
 				C33EA1B229A8E8A900AF1F24 /* HomeViewViewModel.swift in Sources */,
 				C3AD729C299BAABB006B21F7 /* OnboardingViewController.swift in Sources */,
+				C33546A129B7356900E7B87D /* WatchlistMovieViewModel.swift in Sources */,
 				C333965D299E247200158004 /* UpcomingTitle.swift in Sources */,
 				C333965F299E59E600158004 /* SearchResultViewController.swift in Sources */,
 				C3AD72A9299BAAF7006B21F7 /* HomeViewController.swift in Sources */,
@@ -374,7 +378,7 @@
 				C36A108329A8F12700A0B0B2 /* UserRegisterViewController.swift in Sources */,
 				C3AD72CC299BB99E006B21F7 /* CollectionViewTableViewCell.swift in Sources */,
 				C3ECD56229A89C1800E2BEE3 /* AppUser.swift in Sources */,
-				C335469B29B7247500E7B87D /* ApiKeys.swift in Sources */,
+				C335469D29B7324000E7B87D /* ApiKey.swift in Sources */,
 				C38715AF29B0F22B0086099A /* FavoriteMovies.swift in Sources */,
 				C3AD72AB299BAAF7006B21F7 /* MainTabbarViewController.swift in Sources */,
 				C3AD3978299CC7EA00DB5353 /* ProfileViewController.swift in Sources */,

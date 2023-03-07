@@ -8,11 +8,14 @@
 import UIKit
 import Combine
 import Kingfisher
-
+import Firebase
+import FirebaseAuth
 class ProfileViewController: UIViewController {
     var subscriptions: Set<AnyCancellable> = []
-    
-    var titles = [Title]()
+    var error: String?
+    private var watchlistModel: Watchlists?
+    private var watchlistsModel: [TitlePreviewViewModel] = [TitlePreviewViewModel]()
+    private var id: String?
     var isStatusBarHidden: Bool = true
     private var viewModel = ProfileViewModel()
     let statusBar: UIView = {
@@ -34,26 +37,47 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableViewConf()
+        navigationItemConf()
+        subviewConf()
+        confConstraint()
+        bindView()
+        retriveData()
+        fetchData()
+    }
+    
+    private func navigationItemConf(){
         navigationItem.title = "Profile"
         navigationController?.navigationBar.isHidden = true
+    }
+    private func tableViewConf(){
+        tableView.tableHeaderView = headerView
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
+    private func subviewConf(){
         view.addSubview(tableView)
         view.addSubview(statusBar)
-        tableView.tableHeaderView = headerView
-        confConstraint()
-        fetchData()
-        bindView()
+    }
+    private func retriveData(){
+        viewModel.retriveUser()
+        viewModel.getWatchlistMovie()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.retriveUser()
+        navigationController?.navigationBar.isHidden = true
+        fetchData()
     }
     
     private func bindView(){
         viewModel.$user.sink { [weak self] user in
             guard let user = user else{return}
+            self?.id = user.id
             DispatchQueue.main.async {
                 self?.headerView.nameLabel.text = "\(user.displayName)"
                 self?.headerView.usernameLabel.text = "@\(user.username)"
@@ -83,26 +107,49 @@ class ProfileViewController: UIViewController {
         NSLayoutConstraint.activate(statusBarConstraint)
     }
     
-    
     private func fetchData(){
-        APICaller.shared.getDiscover { [weak self] result in
-            switch result{
-            case .success(let titles):
-                self?.titles = titles
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
+        viewModel.$watchlist.sink{[weak self] watchlist in
+            guard let watchlist = watchlist else{return}
+            self?.watchlistModel = watchlist
+            self?.watchlistsModel = watchlist.watchlists
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
             }
-        }
+        }.store(in: &subscriptions)
+        
+//
+//        guard let id = Auth.auth().currentUser?.uid else { return }
+//        DatabaseManager.shared.fetchCollectionWatchlists(retrive: id).sink { [weak self] completion in
+//            if case .failure(let error) = completion{
+//                self?.error = error.localizedDescription
+//            }
+//        } receiveValue: { [weak self] watchlist in
+//            self?.watchlistModel = watchlist
+//            self?.watchlistsModel = watchlist.watchlists
+//            DispatchQueue.main.async {
+//
+//                self?.tableView.reloadData()
+//            }
+//        }.store(in: &subscriptions)
+
+//        APICaller.shared.getDiscover { [weak self] result in
+//            switch result{
+//            case .success(let titles):
+//                self?.titles = titles
+//                DispatchQueue.main.async {
+//                    self?.tableView.reloadData()
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
     }
 }
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titles.count
+        return watchlistsModel.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -110,8 +157,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         else{
             return UITableViewCell()
         }
-        let titles = titles[indexPath.row]
-        let model = UpcomingTitle(titleName: titles.original_title ?? titles.original_name ?? "Unknown name", posterURL: titles.poster_path ?? "")
+        let titles = watchlistsModel[indexPath.row]
+        let model = UpcomingTitle(titleName: titles.title, posterURL: titles.posterPath)
         cell.configure(with: model)
         return cell
     }
@@ -120,19 +167,41 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         return 140
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let yPosition = scrollView.contentOffset.y
-        if yPosition > 150 && isStatusBarHidden{
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear) {[weak self] in
-                self?.statusBar.layer.opacity = 1
-            }completion: { _ in }
-        }
-        else if yPosition < 0 && !isStatusBarHidden{
-            isStatusBarHidden = true
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear) {[weak self] in
-                self?.statusBar.layer.opacity = 0
-            }completion: { _ in }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let title = self.watchlistsModel[indexPath.row]
+        let titleName = title.title
+        APICaller.shared.getMovie(with: titleName + "official trailer") { [weak self] result in
+            switch result{
+            case .success(let videoElement):
+                let title = self?.watchlistsModel[indexPath.row]
+                guard let titleOverview = title?.titleOverView else{return}
+                guard let id = title?.id else{return}
+                guard let posterPath = title?.posterPath else {return}
+                let viewModel = TitlePreviewViewModel(id: id, title: titleName, youtubeView: videoElement, titleOverView: titleOverview, posterPath: posterPath)
+                DispatchQueue.main.async { [weak self] in
+                    let vc = TitlePreviewViewController()
+                    vc.configure(with: viewModel)
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
         }
     }
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let yPosition = scrollView.contentOffset.y
+//        if yPosition > 150 && isStatusBarHidden{
+//            UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear) {[weak self] in
+//                self?.statusBar.layer.opacity = 1
+//            }completion: { _ in }
+//        }
+//        else if yPosition < 0 && !isStatusBarHidden{
+//            isStatusBarHidden = true
+//            UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear) {[weak self] in
+//                self?.statusBar.layer.opacity = 0
+//            }completion: { _ in }
+//        }
+//    }
 
 }

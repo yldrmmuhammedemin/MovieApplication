@@ -128,11 +128,17 @@ class APICaller{
     
     
     func getMovie(with query: String, completion: @escaping (Result<VideoElement, Error>) -> Void){
-        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}
-        let url = "https://youtube.googleapis.com/youtube/v3/search?q=" + query + "&key=" + ApiKey.API_Key_Youtube
-        let task = AF.request(url, method: .get).response{
-            response in
-            guard let data = response.data else { return }
+       //-- guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}
+        //--let url = "https://youtube.googleapis.com/youtube/v3/search?q=" + query + "&key=" + ApiKey.API_Key_Youtube
+        //--let task = AF.request(url, method: .get).response{
+            //--response in
+            //--guard let data = response.data else { return }
+        
+            //** Mock Part Begin
+            let url = "/Users/r00th/Code/MovieApplication/MovieApplication/Network/@MockYoutubeResponse.json"
+            guard let data = try? Data(contentsOf: URL(fileURLWithPath: url)) else {return}
+            //** Mock Part End
+        
             do{
                 let result = try JSONDecoder().decode(YoutubeContent.self , from: data)
                 completion(.success(result.items[0]))
@@ -140,8 +146,8 @@ class APICaller{
                 completion(.failure(error))
                 print(error.localizedDescription)
             }
-        }
-        task.resume()
+        //--}
+        //--task.resume()
         
     }
     

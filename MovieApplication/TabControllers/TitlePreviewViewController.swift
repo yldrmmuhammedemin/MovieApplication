@@ -12,8 +12,10 @@ import Combine
 class TitlePreviewViewController: UIViewController {
     
     private var viewModel = FavoriteMoviesViewModel()
+    private var watchlistModel = WatchlistMovieViewModel()
     private var selfModel : TitlePreviewViewModel?
     private var subscripition : Set<AnyCancellable> = []
+    
     // MARK: - Favorite DidSet Function
     private var isFavorite : Bool = false{
         didSet{
@@ -32,11 +34,39 @@ class TitlePreviewViewController: UIViewController {
             }
         }
     }
+
+    
+    
+    // MARK: - Watchlist Icon
+    private var isWatchlist : Bool = false{
+        didSet{
+            if self.isWatchlist{
+                self.navigationItem.leftBarButtonItem = UIBarButtonItem(image:UIImage(systemName: "film.fill"),
+                                                                    style: .plain,
+                                                                    target: self,
+                                                                    action: #selector(didTapWatchlist))
+                print(isWatchlist)
+            }
+            else{
+                navigationItem.leftBarButtonItem = UIBarButtonItem(image:UIImage(systemName: "film"),
+                                                                    style: .plain,
+                                                                    target: self,
+                                                                    action: #selector(didTapWatchlist))
+            }
+        }
+    }
+    
+    // MARK: - Watchlist Function
+    @objc func didTapWatchlist(){
+        self.isWatchlist = !self.isWatchlist
+    }
+    
     // MARK: - Added Component
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -47,12 +77,12 @@ class TitlePreviewViewController: UIViewController {
     }()
     
     
-    private let overViewLabel: UILabel = {
-       let label = UILabel()
+    private let overViewLabel: UITextView = {
+       let label = UITextView()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.textAlignment = .justified
-        label.numberOfLines = 0
+        label.isEditable = false
         return label
     }()
     
@@ -63,12 +93,14 @@ class TitlePreviewViewController: UIViewController {
         button.tintColor = .red
         return button
     }()
+    
     // MARK: - Subview Add Functions
     fileprivate func addSubviews() {
         view.addSubview(titleLabel)
         view.addSubview(overViewLabel)
         view.addSubview(webView)
     }
+    
     // MARK: - viewdidload Function
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,44 +108,104 @@ class TitlePreviewViewController: UIViewController {
         configureConstraints()
         navbarConf()
         favControl()
+        watchlistControl()
+
     }
-    // MARK: - Get the favorite data
+    
+    // MARK: - Get the favorite data and give the model
     private func favControl(){
         viewModel.retriveMovies(favModel: self.selfModel!)
         viewModel.$isFavorite.sink { [weak self] isFavorite in
             self?.isFavorite = isFavorite
             }.store(in: &self.subscripition)
     }
-    // MARK: - Send favorite data when screen disappear
+    
+    // MARK: - Get the watchlist data and give the model
+    private func watchlistControl(){
+        watchlistModel.getWatchlistMovie(watchModel: self.selfModel!)
+        watchlistModel.$isWatchlistAdded.sink { [weak self] isWatchlist in
+            self?.isWatchlist = isWatchlist
+        }.store(in: &self.subscripition)
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        print(overViewLabel.bounds.self)
+        print(overViewLabel.frame.self)
+    }
+    // MARK: - Send data when screen disappear
     override func viewWillDisappear(_ animated: Bool) {
         if isFavorite{
             addFavorite()
-
         }
         else{
             deleteFavorite()
         }
+        
+        if isWatchlist{
+            addWatchlist()
+        }
+        else{
+            removeWatchlist()
+        }
     }
+    // MARK: - Add watchlist function
+    private func addWatchlist(){
+        watchlistModel.addWatchlistMovie()
+    }
+    
+    // MARK: - Remove watchlist function
+    private func removeWatchlist(){
+        watchlistModel.removeWatchlistMovie()
+    }
+    
     // MARK: - Remove favorite function
     private func deleteFavorite(){
         viewModel.deleteFavoriteMovies()
     }
+    
     // MARK: - Add favorite function
     private func addFavorite(){
         viewModel.updateFavoriteMovies()
     }
+    
     // MARK: - Favorite button function
     @objc private func didTapFav(){
         self.isFavorite = !isFavorite
     }
+    
     // MARK: - Navigationbar configuration
     private func navbarConf(){
-        didTapFav()
+            if self.isFavorite{
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image:UIImage(systemName: "heart.fill"),
+                                                                    style: .plain,
+                                                                    target: self,
+                                                                    action: #selector(didTapFav))
+                print(isFavorite)
+            }
+            else{
+                navigationItem.rightBarButtonItem = UIBarButtonItem(image:UIImage(systemName: "heart"),
+                                                                    style: .plain,
+                                                                    target: self,
+                                                                    action: #selector(didTapFav))
+            }
+            if self.isWatchlist{
+                self.navigationItem.leftBarButtonItem = UIBarButtonItem(image:UIImage(systemName: "film.fill"),
+                                                                    style: .plain,
+                                                                    target: self,
+                                                                    action: #selector(didTapWatchlist))
+            }
+            else{
+                navigationItem.leftBarButtonItem = UIBarButtonItem(image:UIImage(systemName: "film"),
+                                                                    style: .plain,
+                                                                    target: self,
+                                                                    action: #selector(didTapWatchlist))
+            }
+
     }
+    
     // MARK: - Constraints of configuration
     private func configureConstraints(){
         let webViewConstraints = [
-            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             webView.heightAnchor.constraint(equalToConstant: 300),
@@ -129,7 +221,9 @@ class TitlePreviewViewController: UIViewController {
         let overviewLabelConstraints = [
             overViewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
             overViewLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            overViewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            overViewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            overViewLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            
         ]
         
         NSLayoutConstraint.activate(webViewConstraints)
@@ -137,6 +231,7 @@ class TitlePreviewViewController: UIViewController {
         NSLayoutConstraint.activate(overviewLabelConstraints)
         
     }
+    
     // MARK: - Setting models to screen
     func configure(with model: TitlePreviewViewModel){
             self.selfModel = model
