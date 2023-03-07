@@ -81,8 +81,8 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
-ApiKeys.swift
-@MockYoutubeResponse.json
+Configure/ApiKeys.swift
+Network/@MockYoutubeResponse.json
 # Code Injection
 #
 # After new code Injection tools there's a generated folder /iOSInjectionProject
