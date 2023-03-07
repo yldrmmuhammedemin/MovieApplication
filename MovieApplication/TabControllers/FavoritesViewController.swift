@@ -12,24 +12,24 @@ class FavoritesViewController: UIViewController {
     private var titles:[TitlePreviewViewModel] = [TitlePreviewViewModel]()
     private var subscriptions: Set<AnyCancellable> = []
     private var error : String?
-    private var user: AppUser?
+    private var favoriteMovies: FavoriteMovies?
     
     let favoritesTable: UITableView = {
        let table = UITableView()
         table.register(TitleTableViewCell.self, forCellReuseIdentifier: TitleTableViewCell.identfier)
         return table
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Favorites"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        
-        view.addSubview(favoritesTable)
-        favoritesTable.delegate = self
-        favoritesTable.dataSource = self
-        fetchData()
+        navbarConf()
+        delegateStuff()
+        addSubviewViews()
+        //fetchData()
   
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        fetchData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -39,15 +39,15 @@ class FavoritesViewController: UIViewController {
     
     private func fetchData(){
         guard let id = Auth.auth().currentUser?.uid else { return }
-        DatabaseManager.shared.collectionUsers(retrieve: id)
+        DatabaseManager.shared.fetchCollectionFavorites(retrive: id)
                     .sink { [weak self] completion in
                         if case .failure(let error) = completion {
                             self?.error = error.localizedDescription
                         }
-                    } receiveValue: { [weak self] user in
+                    } receiveValue: { [weak self] favoriteMovies in
                         DispatchQueue.main.async {
-                            self?.user = user
-                            self?.titles = user.favoriteMovies
+                            self?.favoriteMovies = favoriteMovies
+                            self?.titles = favoriteMovies.favoriteMovies
                             self?.favoritesTable.reloadData()
                         }
                     }
@@ -55,6 +55,21 @@ class FavoritesViewController: UIViewController {
     }
     
     private func deleteFavoriteMovie(){
+    }
+    
+    private func addSubviewViews(){
+        view.addSubview(favoritesTable)
+    }
+    
+    private func delegateStuff(){
+        favoritesTable.delegate = self
+        favoritesTable.dataSource = self
+    }
+    
+    private func navbarConf(){
+        title = "Favorites"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationItem.largeTitleDisplayMode = .always
     }
 }
 
@@ -78,10 +93,7 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-                    let selectedRowIndex = indexPath.row
-                    deleteFavoriteMovie()
-                }
+        
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

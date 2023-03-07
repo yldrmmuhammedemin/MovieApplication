@@ -71,6 +71,10 @@ class HomeViewController: UIViewController {
         navigationController?.navigationBar.isHidden = false
         viewModel.retriveUser()
     }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.navigationBar.transform = .init(translationX: 0, y: 0)
+    }
     
     func sessionControl(){
         if Auth.auth().currentUser == nil {

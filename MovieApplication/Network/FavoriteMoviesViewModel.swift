@@ -10,42 +10,78 @@ import Firebase
 import Combine
 
 class FavoriteMoviesViewModel: ObservableObject{
-    private var subscriptions: Set<AnyCancellable> = []
-    @Published var user: AppUser?
-    @Published var id: String?
-    @Published var favoriteMovies: [TitlePreviewViewModel]?
+
     @Published var error: String?
+    @Published var favoriteMovie: FavoriteMovies?
+    @Published var isFavorite : Bool = false
+    private var favModel: TitlePreviewViewModel?
+    private var id: String?
+    private var favoriteMovies: [TitlePreviewViewModel]?
+    private var subscriptions: Set<AnyCancellable> = []
     
-    func retriveUser(){
-        guard let id = Auth.auth().currentUser?.uid else { return }
-        DatabaseManager.shared.collectionUsers(retrieve: id)
+    func retriveMovies(favModel: TitlePreviewViewModel){
+        self.id = Auth.auth().currentUser?.uid
+        guard let id = self.id else {return}
+        self.favModel = favModel
+        DatabaseManager.shared.fetchCollectionFavorites(retrive: id)
                     .sink { [weak self] completion in
                         if case .failure(let error) = completion {
                             self?.error = error.localizedDescription
                         }
-                    } receiveValue: { [weak self] user in
-                        self?.user = user
-                        self?.favoriteMovies = user.favoriteMovies
-                    }
-                    .store(in: &subscriptions)
+                    } receiveValue: { [weak self] favoriteMovie in
+                        self?.favoriteMovie = favoriteMovie
+                        self?.favoriteMovies = favoriteMovie.favoriteMovies
+                        if favoriteMovie.favoriteMovies.contains(favModel){
+                            self?.isFavorite = true
+                        }else{
+                            self?.isFavorite = false
+                        }
+                    }.store(in: &subscriptions)
     }
     
-    func updateFavoriteMovies(favModel: TitlePreviewViewModel){
-        retriveUser()
-        guard let id = self.user?.id else{return}
-        if !self.favoriteMovies!.contains(favModel){
-            self.user?.favoriteMovies.append(favModel)
-            DatabaseManager.shared.updateUsers(add: self.user!, id: id).sink { [weak self] completion in
+    
+    func updateFavoriteMovies(){
+        guard let id = self.id,
+        let favoriteMovies = self.favoriteMovies,
+        var favoriteMovie = self.favoriteMovie,
+        let favModel = self.favModel
+        else{ return }
+        if !favoriteMovies.contains(favModel){
+            favoriteMovie.favoriteMovies.append(favModel)
+            DatabaseManager.shared.addCollectionFavorites(add: favoriteMovie, for: id).sink {
+                [weak self] completion in
                 if case .failure(let error) = completion{
                     print(error.localizedDescription)
                     self?.error = error.localizedDescription
                 }
-            }receiveValue: { [weak self] status in
+            }receiveValue: {status in
                 print("Movie has been successfully added : \(status)")
             }.store(in: &subscriptions)
         }else{
             print("This Movie Already Added Favorites.")
         }
+    }
+    
+    func deleteFavoriteMovies(){
+        guard let id = self.id,
+        let favoriteMovies = self.favoriteMovies,
+        var favoriteMovie = self.favoriteMovie,
+        let favModel = self.favModel
+        else{ return }
+        if favoriteMovies.contains(favModel){
+            guard let index = favoriteMovie.favoriteMovies.firstIndex(of: favModel) else {return}
+            favoriteMovie.favoriteMovies.remove(at: index)
+            DatabaseManager.shared.addCollectionFavorites(add: favoriteMovie, for: id).sink {
+                [weak self] completion in
+                if case .failure(let error) = completion{
+                    print(error.localizedDescription)
+                    self?.error = error.localizedDescription
+                }
+            }receiveValue: {status in
+                print("Movie has been successfully removed : \(status)")
+            }.store(in: &subscriptions)
+        }else{
+            print("This Movie Hasn't Found.")
         }
-
+    }
 }

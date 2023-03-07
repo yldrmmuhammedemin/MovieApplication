@@ -10,6 +10,7 @@ import Combine
 import FirebaseAuth
 
 class HomeViewViewModel: ObservableObject{
+    
     @Published var user: AppUser?
     @Published var error: String?
     

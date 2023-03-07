@@ -71,7 +71,6 @@ extension ComingSoonViewController: UITableViewDelegate, UITableViewDataSource{
         }
         guard let titleOverview = title.overview else{return}
         let id = title.id
-        let posterPath = title.poster_path
         APICaller.shared.getMovie(with: titleName + "official trailer") { [weak self] result in
             switch result{
             case .success(let videoElement):

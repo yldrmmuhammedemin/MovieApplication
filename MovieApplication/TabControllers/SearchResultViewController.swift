@@ -6,6 +6,7 @@
 //
 
 import UIKit
+// MARK: - Search delegate
 protocol SearchResultsViewControllerDelegate: AnyObject{
     func searchResultsViewControllerDidTapItem(_ viewModel: TitlePreviewViewModel)
 }
@@ -31,7 +32,7 @@ class SearchResultViewController: UIViewController {
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        searchResultCollection.frame = view.bounds
+        searchResultCollection.frame = CGRect(x: 0, y:100 , width: view.bounds.width, height: view.bounds.height - 150 )
     }
 }
 

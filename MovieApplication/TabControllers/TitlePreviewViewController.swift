@@ -8,11 +8,31 @@
 import UIKit
 import WebKit
 import Alamofire
-
+import Combine
 class TitlePreviewViewController: UIViewController {
     
     private var viewModel = FavoriteMoviesViewModel()
     private var selfModel : TitlePreviewViewModel?
+    private var subscripition : Set<AnyCancellable> = []
+    // MARK: - Favorite DidSet Function
+    private var isFavorite : Bool = false{
+        didSet{
+            if self.isFavorite{
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image:UIImage(systemName: "heart.fill"),
+                                                                    style: .plain,
+                                                                    target: self,
+                                                                    action: #selector(didTapFav))
+                print(isFavorite)
+            }
+            else{
+                navigationItem.rightBarButtonItem = UIBarButtonItem(image:UIImage(systemName: "heart"),
+                                                                    style: .plain,
+                                                                    target: self,
+                                                                    action: #selector(didTapFav))
+            }
+        }
+    }
+    // MARK: - Added Component
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -43,20 +63,54 @@ class TitlePreviewViewController: UIViewController {
         button.tintColor = .red
         return button
     }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    // MARK: - Subview Add Functions
+    fileprivate func addSubviews() {
         view.addSubview(titleLabel)
         view.addSubview(overViewLabel)
         view.addSubview(webView)
-        view.addSubview(favoriteAddButton)
-        favoriteAddButton.addTarget(self, action: #selector(addFavorite), for: .touchDown)
+    }
+    // MARK: - viewdidload Function
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        addSubviews()
         configureConstraints()
+        navbarConf()
+        favControl()
     }
-    
-    @objc func addFavorite(){
-        viewModel.updateFavoriteMovies(favModel: self.selfModel!)
+    // MARK: - Get the favorite data
+    private func favControl(){
+        viewModel.retriveMovies(favModel: self.selfModel!)
+        viewModel.$isFavorite.sink { [weak self] isFavorite in
+            self?.isFavorite = isFavorite
+            }.store(in: &self.subscripition)
     }
+    // MARK: - Send favorite data when screen disappear
+    override func viewWillDisappear(_ animated: Bool) {
+        if isFavorite{
+            addFavorite()
+
+        }
+        else{
+            deleteFavorite()
+        }
+    }
+    // MARK: - Remove favorite function
+    private func deleteFavorite(){
+        viewModel.deleteFavoriteMovies()
+    }
+    // MARK: - Add favorite function
+    private func addFavorite(){
+        viewModel.updateFavoriteMovies()
+    }
+    // MARK: - Favorite button function
+    @objc private func didTapFav(){
+        self.isFavorite = !isFavorite
+    }
+    // MARK: - Navigationbar configuration
+    private func navbarConf(){
+        didTapFav()
+    }
+    // MARK: - Constraints of configuration
     private func configureConstraints(){
         let webViewConstraints = [
             webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -78,17 +132,12 @@ class TitlePreviewViewController: UIViewController {
             overViewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ]
         
-        let favoriteAddButton = [
-            favoriteAddButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            favoriteAddButton.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 30)
-        ]
-        NSLayoutConstraint.activate(favoriteAddButton)
         NSLayoutConstraint.activate(webViewConstraints)
         NSLayoutConstraint.activate(titleLabelConstraints)
         NSLayoutConstraint.activate(overviewLabelConstraints)
         
     }
-    
+    // MARK: - Setting models to screen
     func configure(with model: TitlePreviewViewModel){
             self.selfModel = model
             self.titleLabel.text = model.title

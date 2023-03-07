@@ -15,6 +15,8 @@
 		C333965B299E1D9000158004 /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333965A299E1D9000158004 /* TitleTableViewCell.swift */; };
 		C333965D299E247200158004 /* UpcomingTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333965C299E247200158004 /* UpcomingTitle.swift */; };
 		C333965F299E59E600158004 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C333965E299E59E600158004 /* SearchResultViewController.swift */; };
+		C335469829B71B1100E7B87D /* @MockYoutubeResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C335469729B71B1100E7B87D /* @MockYoutubeResponse.json */; };
+		C335469B29B7247500E7B87D /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C335469A29B7247500E7B87D /* ApiKeys.swift */; };
 		C33EA1AA29A8A75100AF1F24 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33EA1A929A8A75100AF1F24 /* StorageManager.swift */; };
 		C33EA1AC29A8D89D00AF1F24 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C33EA1AB29A8D89D00AF1F24 /* GoogleService-Info.plist */; };
 		C33EA1B029A8E4CB00AF1F24 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33EA1AF29A8E4CB00AF1F24 /* DatabaseManager.swift */; };
@@ -23,6 +25,9 @@
 		C369CD68299FA1F700F1BA75 /* TitlePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C369CD67299FA1F700F1BA75 /* TitlePreviewViewController.swift */; };
 		C369CD6A299FAE1B00F1BA75 /* TitlePreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C369CD69299FAE1B00F1BA75 /* TitlePreviewViewModel.swift */; };
 		C36A108329A8F12700A0B0B2 /* UserRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36A108229A8F12700A0B0B2 /* UserRegisterViewController.swift */; };
+		C38715AF29B0F22B0086099A /* FavoriteMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38715AE29B0F22B0086099A /* FavoriteMovies.swift */; };
+		C38715B129B0F4150086099A /* Watchlists.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38715B029B0F4150086099A /* Watchlists.swift */; };
+		C38715B329B0F47C0086099A /* WatchlistsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38715B229B0F47C0086099A /* WatchlistsModel.swift */; };
 		C3AD3976299CB72900DB5353 /* HeroHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AD3975299CB72900DB5353 /* HeroHeaderView.swift */; };
 		C3AD3978299CC7EA00DB5353 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AD3977299CC7EA00DB5353 /* ProfileViewController.swift */; };
 		C3AD397A299CF71A00DB5353 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AD3979299CF71A00DB5353 /* APICaller.swift */; };
@@ -57,7 +62,7 @@
 		C3CE6CF129AC95B400CFA65F /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CE6CF029AC95B400CFA65F /* ProfileHeaderView.swift */; };
 		C3CE6CF329ACF77C00CFA65F /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CE6CF229ACF77C00CFA65F /* ProfileViewModel.swift */; };
 		C3ECD56229A89C1800E2BEE3 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ECD56129A89C1800E2BEE3 /* AppUser.swift */; };
-		C3ECD56429A8A1D500E2BEE3 /* AppUserModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ECD56329A8A1D500E2BEE3 /* AppUserModelView.swift */; };
+		C3ECD56429A8A1D500E2BEE3 /* AppUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ECD56329A8A1D500E2BEE3 /* AppUserViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +70,8 @@
 		C333965A299E1D9000158004 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
 		C333965C299E247200158004 /* UpcomingTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingTitle.swift; sourceTree = "<group>"; };
 		C333965E299E59E600158004 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
+		C335469729B71B1100E7B87D /* @MockYoutubeResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "@MockYoutubeResponse.json"; sourceTree = "<group>"; };
+		C335469A29B7247500E7B87D /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		C33EA1A929A8A75100AF1F24 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		C33EA1AB29A8D89D00AF1F24 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C33EA1AF29A8E4CB00AF1F24 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -73,6 +80,9 @@
 		C369CD67299FA1F700F1BA75 /* TitlePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitlePreviewViewController.swift; sourceTree = "<group>"; };
 		C369CD69299FAE1B00F1BA75 /* TitlePreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitlePreviewViewModel.swift; sourceTree = "<group>"; };
 		C36A108229A8F12700A0B0B2 /* UserRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegisterViewController.swift; sourceTree = "<group>"; };
+		C38715AE29B0F22B0086099A /* FavoriteMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMovies.swift; sourceTree = "<group>"; };
+		C38715B029B0F4150086099A /* Watchlists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watchlists.swift; sourceTree = "<group>"; };
+		C38715B229B0F47C0086099A /* WatchlistsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistsModel.swift; sourceTree = "<group>"; };
 		C3AD3975299CB72900DB5353 /* HeroHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroHeaderView.swift; sourceTree = "<group>"; };
 		C3AD3977299CC7EA00DB5353 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C3AD3979299CF71A00DB5353 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
@@ -99,7 +109,7 @@
 		C3CE6CF029AC95B400CFA65F /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		C3CE6CF229ACF77C00CFA65F /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		C3ECD56129A89C1800E2BEE3 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
-		C3ECD56329A8A1D500E2BEE3 /* AppUserModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUserModelView.swift; sourceTree = "<group>"; };
+		C3ECD56329A8A1D500E2BEE3 /* AppUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUserViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +137,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C335469929B7245D00E7B87D /* Configure */ = {
+			isa = PBXGroup;
+			children = (
+				C335469A29B7247500E7B87D /* ApiKeys.swift */,
+			);
+			path = Configure;
+			sourceTree = "<group>";
+		};
 		C3AD7269299BA9F8006B21F7 = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +164,7 @@
 		C3AD7274299BA9F8006B21F7 /* MovieApplication */ = {
 			isa = PBXGroup;
 			children = (
+				C335469929B7245D00E7B87D /* Configure */,
 				C3AD72CA299BB964006B21F7 /* Views */,
 				C3AD72B4299BABFB006B21F7 /* Models */,
 				C3AD72B3299BABDA006B21F7 /* Network */,
@@ -191,15 +210,17 @@
 		C3AD72B3299BABDA006B21F7 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				C3B3402829ADE66300F9592F /* FavoriteMoviesViewModel.swift */,
 				C3AD72A1299BAAE4006B21F7 /* AuthenticationViewViewModel.swift */,
 				C3AD729D299BAAD9006B21F7 /* AuthManager.swift */,
 				C3AD3979299CF71A00DB5353 /* APICaller.swift */,
-				C3ECD56329A8A1D500E2BEE3 /* AppUserModelView.swift */,
+				C3ECD56329A8A1D500E2BEE3 /* AppUserViewModel.swift */,
 				C33EA1A929A8A75100AF1F24 /* StorageManager.swift */,
 				C33EA1AF29A8E4CB00AF1F24 /* DatabaseManager.swift */,
 				C33EA1B129A8E8A900AF1F24 /* HomeViewViewModel.swift */,
 				C3CE6CF229ACF77C00CFA65F /* ProfileViewModel.swift */,
-				C3B3402829ADE66300F9592F /* FavoriteMoviesViewModel.swift */,
+				C38715B229B0F47C0086099A /* WatchlistsModel.swift */,
+				C335469729B71B1100E7B87D /* @MockYoutubeResponse.json */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -212,6 +233,8 @@
 				C369CD65299F746B00F1BA75 /* YoutubeContent.swift */,
 				C369CD69299FAE1B00F1BA75 /* TitlePreviewViewModel.swift */,
 				C3ECD56129A89C1800E2BEE3 /* AppUser.swift */,
+				C38715AE29B0F22B0086099A /* FavoriteMovies.swift */,
+				C38715B029B0F4150086099A /* Watchlists.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -312,6 +335,7 @@
 				C3AD7282299BA9FA006B21F7 /* LaunchScreen.storyboard in Resources */,
 				C3AD727F299BA9FA006B21F7 /* Assets.xcassets in Resources */,
 				C33EA1AC29A8D89D00AF1F24 /* GoogleService-Info.plist in Resources */,
+				C335469829B71B1100E7B87D /* @MockYoutubeResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +348,7 @@
 			files = (
 				C369CD6A299FAE1B00F1BA75 /* TitlePreviewViewModel.swift in Sources */,
 				C3AD72AE299BAAF7006B21F7 /* SearchViewController.swift in Sources */,
+				C38715B329B0F47C0086099A /* WatchlistsModel.swift in Sources */,
 				C3AD72AC299BAAF7006B21F7 /* FavoritesViewController.swift in Sources */,
 				C33EA1AA29A8A75100AF1F24 /* StorageManager.swift in Sources */,
 				C369CD66299F746B00F1BA75 /* YoutubeContent.swift in Sources */,
@@ -349,12 +374,15 @@
 				C36A108329A8F12700A0B0B2 /* UserRegisterViewController.swift in Sources */,
 				C3AD72CC299BB99E006B21F7 /* CollectionViewTableViewCell.swift in Sources */,
 				C3ECD56229A89C1800E2BEE3 /* AppUser.swift in Sources */,
+				C335469B29B7247500E7B87D /* ApiKeys.swift in Sources */,
+				C38715AF29B0F22B0086099A /* FavoriteMovies.swift in Sources */,
 				C3AD72AB299BAAF7006B21F7 /* MainTabbarViewController.swift in Sources */,
 				C3AD3978299CC7EA00DB5353 /* ProfileViewController.swift in Sources */,
 				C369CD68299FA1F700F1BA75 /* TitlePreviewViewController.swift in Sources */,
 				C3AD72AA299BAAF7006B21F7 /* ComingSoonViewController.swift in Sources */,
 				C3AD729B299BAABB006B21F7 /* SignUpViewController.swift in Sources */,
-				C3ECD56429A8A1D500E2BEE3 /* AppUserModelView.swift in Sources */,
+				C38715B129B0F4150086099A /* Watchlists.swift in Sources */,
+				C3ECD56429A8A1D500E2BEE3 /* AppUserViewModel.swift in Sources */,
 				C3AD397F299D0A7500DB5353 /* Title.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
