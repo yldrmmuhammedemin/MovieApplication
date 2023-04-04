@@ -11,7 +11,7 @@ In the application, "Alamofire" library was used for network operations and "Kin
 
 ## Screenshots
 
-##Welcome Screen
+## Welcome Screen
 
 ![1](https://user-images.githubusercontent.com/77511870/229739144-e80eeea8-3232-4e15-b88f-50bf6b294355.png)
 
